@@ -25,8 +25,12 @@ class Recognizer:
        files = os.listdir(path)  # 得到文件夹下的所有文件名称
        for file in files:  # 遍历文件夹
            if not os.path.isdir(file):  # 判断是否是文件夹，不是文件夹才打开
+               name = file.split(".")[0]
+               ext=file.split(".")[-1]
+               if ext=="gitignore":
+                   continue
                value=self.extractor.extract(Image.open(path + "/" + file))
-               name=file.split(".")[0]
+
                self.data.append((name,value))
        print("The face image library is loaded.")
 
@@ -43,6 +47,5 @@ class Recognizer:
             similarity=self.calculateSimilarity(imageValue,item[1])
             if similarity>result[1]:
                 result=(item[0],similarity)
-
         return result
 
